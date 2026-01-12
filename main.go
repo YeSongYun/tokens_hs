@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image/color"
 	"strconv"
+	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -182,12 +183,26 @@ func formatNumber(val float64) string {
 	return s
 }
 
-// formatTokens 格式化tokens数量，大数字使用千分位
+// formatTokens 格式化tokens数量，大数字使用千分位，去除尾部多余的零
 func formatTokens(val float64) string {
+	var num float64
+	var suffix string
+
 	if val >= 1000000 {
-		return fmt.Sprintf("%.2fM", val/1000000)
+		num = val / 1000000
+		suffix = "M"
 	} else if val >= 1000 {
-		return fmt.Sprintf("%.2fK", val/1000)
+		num = val / 1000
+		suffix = "K"
+	} else {
+		num = val
+		suffix = ""
 	}
-	return fmt.Sprintf("%.2f", val)
+
+	// 格式化数字，去除尾部多余的零
+	formatted := fmt.Sprintf("%.2f", num)
+	formatted = strings.TrimRight(formatted, "0")
+	formatted = strings.TrimRight(formatted, ".")
+
+	return formatted + suffix
 }
