@@ -1,3 +1,26 @@
+# v1.1.0
+
+## 更新内容
+
+- 重构代码结构，将 UI 逻辑拆分为多个模块（app、cards、components、layout、state、utils）
+- 调整 UI 布局，优化交互体验
+- 更新应用图标
+
+## 下载
+
+- Windows：在 Release 的 Assets 中下载 `tokens_hs.exe`
+
+## 使用说明
+
+- 先在「单价设置」里输入任意一个单价（`元/百万 tokens` 或 `元/千 tokens`），再进行计算。
+
+## 构建（Windows）
+
+- PowerShell：`.\build.ps1`
+- CMD：`build.bat`
+
+---
+
 # v1.0.0（初版）
 
 ## 更新内容
