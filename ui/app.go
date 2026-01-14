@@ -20,7 +20,7 @@ func Run() {
 	content := BuildMainLayout(state)
 
 	myWindow.SetContent(content)
-	myWindow.Resize(fyne.NewSize(750, 420))
+	myWindow.Resize(fyne.NewSize(750, 450))
 	myWindow.CenterOnScreen()
 	myWindow.ShowAndRun()
 }

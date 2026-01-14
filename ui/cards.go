@@ -193,7 +193,7 @@ func NewPriceCalcCard(state *AppState) fyne.CanvasObject {
 		updateResult()
 	}
 
-	return widget.NewCard("🧮 单价计算", "",
+	return widget.NewCard("📐 单价计算", "",
 		container.NewVBox(
 			container.NewGridWithColumns(2,
 				widget.NewLabel("消费金额 (元)"),
