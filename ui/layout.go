@@ -6,40 +6,36 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-// BuildMainLayout 构建双栏主布局
+// BuildMainLayout 构建分层主布局
 func BuildMainLayout(state *AppState) fyne.CanvasObject {
 	// 标题区
 	header := BuildHeader()
 
-	// 左栏：单价设置 + 消费计算
-	priceCard := NewPriceSettingCard(state)
-	costCard := NewCostCalcCard(state)
-	leftColumn := container.NewVBox(
-		container.NewPadded(priceCard),
-		container.NewPadded(costCard),
+	// 顶部：单价设置（全宽）
+	priceSettingCard := NewPriceSettingCard(state)
+
+	// 中间：消费计算 + 反向计算（并排，体现关联性）
+	middleRow := container.NewGridWithColumns(2,
+		NewCostCalcCard(state),
+		NewReverseCalcCard(state),
 	)
 
-	// 右栏：反向计算 + 单价计算
-	reverseCard := NewReverseCalcCard(state)
+	// 底部：单价计算（独立功能）
 	priceCalcCard := NewPriceCalcCard(state)
-	rightColumn := container.NewVBox(
-		container.NewPadded(reverseCard),
-		container.NewPadded(priceCalcCard),
-	)
 
-	// 双栏布局（等宽两列）
-	twoColumns := container.NewGridWithColumns(2,
-		leftColumn,
-		rightColumn,
-	)
-
-	// 主布局：标题 + 分隔线 + 双栏内容
+	// 主布局：标题 + 分隔线 + 分层内容
 	return container.NewBorder(
 		container.NewVBox(
 			container.NewPadded(header),
 			widget.NewSeparator(),
 		),
 		nil, nil, nil,
-		container.NewPadded(twoColumns),
+		container.NewPadded(
+			container.NewVBox(
+				priceSettingCard,
+				middleRow,
+				priceCalcCard,
+			),
+		),
 	)
 }
