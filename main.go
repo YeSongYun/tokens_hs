@@ -151,6 +151,61 @@ func main() {
 		),
 	)
 
+	// ========== 单价计算区域 ==========
+	calcCostEntry := widget.NewEntry()
+	calcCostEntry.SetPlaceHolder("例如: 10")
+
+	calcTokensEntry := widget.NewEntry()
+	calcTokensEntry.SetPlaceHolder("例如: 1000000")
+
+	priceResultText := canvas.NewText("0 元/M", color.RGBA{R: 200, G: 150, B: 255, A: 255})
+	priceResultText.TextSize = 20
+	priceResultText.TextStyle = fyne.TextStyle{Bold: true}
+
+	updatePriceResult := func() {
+		costText := calcCostEntry.Text
+		tokensText := calcTokensEntry.Text
+
+		cost, err1 := strconv.ParseFloat(costText, 64)
+		tokens, err2 := strconv.ParseFloat(tokensText, 64)
+
+		if err1 != nil || err2 != nil || cost < 0 || tokens <= 0 {
+			priceResultText.Text = "0 元/M"
+			priceResultText.Refresh()
+			return
+		}
+
+		price := CalculatePricePerMillion(cost, tokens)
+		priceResultText.Text = formatNumber(price) + " 元/M"
+		priceResultText.Refresh()
+	}
+
+	calcCostEntry.OnChanged = func(text string) {
+		updatePriceResult()
+	}
+
+	calcTokensEntry.OnChanged = func(text string) {
+		updatePriceResult()
+	}
+
+	priceCalcCard := widget.NewCard("🧮 单价计算", "",
+		container.NewVBox(
+			container.NewGridWithColumns(2,
+				widget.NewLabelWithStyle("消费金额 (元)", fyne.TextAlignLeading, fyne.TextStyle{}),
+				calcCostEntry,
+			),
+			container.NewGridWithColumns(2,
+				widget.NewLabelWithStyle("Tokens 数量", fyne.TextAlignLeading, fyne.TextStyle{}),
+				calcTokensEntry,
+			),
+			widget.NewSeparator(),
+			container.NewHBox(
+				widget.NewLabelWithStyle("单价:", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
+				priceResultText,
+			),
+		),
+	)
+
 	// ========== 主布局 ==========
 	content := container.NewVBox(
 		container.NewPadded(container.NewVBox(
@@ -161,6 +216,7 @@ func main() {
 		container.NewPadded(priceCard),
 		container.NewPadded(costCard),
 		container.NewPadded(reverseCard),
+		container.NewPadded(priceCalcCard),
 	)
 
 	scroll := container.NewScroll(content)

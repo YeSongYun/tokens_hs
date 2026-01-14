@@ -28,3 +28,14 @@ func CalculateTokens(cost float64, pricePerMillion float64) float64 {
 	}
 	return cost / (pricePerMillion / 1000000)
 }
+
+// CalculatePricePerMillion 根据消费金额和tokens数量计算单价
+// cost: 消费金额(元)
+// tokens: tokens数量
+// 返回: 元/百万tokens
+func CalculatePricePerMillion(cost float64, tokens float64) float64 {
+	if tokens == 0 {
+		return 0
+	}
+	return cost / tokens * 1000000
+}
