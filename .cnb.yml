@@ -12,7 +12,7 @@ main:
           settings:
             target_url: https://github.com/YeSongYun/tokens_hs.git
             auth_type: https
-            username: ${GIT_USERNAME}
+            username: ${GIT_USERNAME} 
             password: ${GIT_ACCESS_TOKEN}
             sync_mode: rebase
 
