@@ -40,7 +40,7 @@ $:
 
         # 2. 编译 Windows AMD64（使用 fyne-cross 支持 CGO 交叉编译）
         - name: 编译 Windows AMD64
-          image: fyneio/fyne-cross:latest
+          image: fyneio/fyne-cross-images:windows
           script:
             - fyne-cross windows -arch=amd64 -app-id=cn.dmxapi.tokens_hs -ldflags="-s -w"
             - mv fyne-cross/bin/windows-amd64/tokens_hs.exe ./tokens_hs-${CNB_BRANCH}-windows-amd64.exe
