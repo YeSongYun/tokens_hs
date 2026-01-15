@@ -38,12 +38,11 @@ $:
           exports:
             stdout: RELEASE_NOTES
 
-        # 2. 编译 Windows AMD64（使用 fyne-cross 支持 CGO 交叉编译）
+        # 2. 编译 Windows AMD64（使用 MinGW 交叉编译）
         - name: 编译 Windows AMD64
-          image: fyneio/fyne-cross-images:windows
+          image: x1unix/go-mingw
           script:
-            - fyne-cross windows -arch=amd64 -app-id=cn.dmxapi.tokens_hs -ldflags="-s -w"
-            - mv fyne-cross/bin/windows-amd64/tokens_hs.exe ./tokens_hs-${CNB_BRANCH}-windows-amd64.exe
+            - CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc go build -ldflags="-s -w" -o tokens_hs-${CNB_BRANCH}-windows-amd64.exe
 
         # 3. 创建 Release
         - name: 创建 Release
